@@ -1,38 +1,33 @@
-// Chai Corner - Lab 11 JavaScript practice
+// Shared JavaScript for Chai Corner Lab 12
+const navToggle = document.getElementById("navToggle");
+const siteNav = document.getElementById("siteNav");
 
-// Display a welcome message when the page loads.
-window.addEventListener("load", function () {
-    console.log("Welcome to Chai Corner!");
-});
-
-// Demonstrate a button interaction with a simple alert.
-const exploreButton = document.querySelector(".hero .button");
-
-if (exploreButton) {
-    exploreButton.addEventListener("click", function () {
-        console.log("The visitor selected Explore Our Chai.");
-    });
+if (navToggle && siteNav) {
+  navToggle.addEventListener("click", () => {
+    const opened = siteNav.classList.toggle("open");
+    navToggle.setAttribute("aria-expanded", String(opened));
+  });
 }
 
-// Demonstration contact form: this does not send or store information.
+// Front-end demonstration only: this form does not send or store data.
 const contactForm = document.getElementById("contactForm");
-
 if (contactForm) {
-    contactForm.addEventListener("submit", function (event) {
-        event.preventDefault();
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+    const feedback = document.getElementById("feedback");
 
-        const nameInput = document.getElementById("visitorName");
-        const formMessage = document.getElementById("formMessage");
-        const visitorName = nameInput.value.trim();
-
-        if (visitorName === "") {
-            formMessage.textContent = "Please enter your name.";
-            return;
-        }
-
-        formMessage.textContent =
-            "Thank you, " + visitorName + "! This is a demo form; your message was not sent.";
-
-        contactForm.reset();
-    });
+    if (!name || !email || !message) {
+      feedback.textContent = "Please complete all fields.";
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      feedback.textContent = "Please enter a valid email address.";
+      return;
+    }
+    feedback.textContent = `Thank you, ${name}! This is a demo form; no message was sent.`;
+    contactForm.reset();
+  });
 }
